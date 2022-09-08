@@ -3,8 +3,6 @@ package ru.vsu.app.webapp.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
@@ -83,7 +81,7 @@ public class PlayerServiceImpl implements PlayerService{
 
     @SneakyThrows
     @PostConstruct
-    public void hotCash(){
+    public void hotCache(){
         File file = ResourceUtils.getFile("classpath:players.json");
         createFromFile(file);
     }
