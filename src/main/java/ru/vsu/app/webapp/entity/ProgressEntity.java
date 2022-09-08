@@ -23,9 +23,8 @@ public class ProgressEntity implements BaseEntity{
     @JoinColumn(name = "player_id")
     private PlayerEntity player;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "resource_id")
-    private ResourceEntity resource;
+    @Column(name = "resource_id")
+    private Long resourceId;
 
     @Column(name = "score")
     private Long score;

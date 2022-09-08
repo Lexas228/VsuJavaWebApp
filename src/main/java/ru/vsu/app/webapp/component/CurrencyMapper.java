@@ -4,23 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.vsu.app.webapp.dto.CurrencyDto;
 import ru.vsu.app.webapp.entity.CurrencyEntity;
-import ru.vsu.app.webapp.entity.ResourceEntity;
-import ru.vsu.app.webapp.repo.CurrencyRepository;
-import ru.vsu.app.webapp.repo.ResourceRepository;
-
-import java.util.Optional;
+import ru.vsu.app.webapp.service.CurrencyService;
 
 @Component
 @RequiredArgsConstructor
 public class CurrencyMapper implements EntityMapper<CurrencyEntity, CurrencyDto>{
-    private final ResourceRepository resourceRepository;
-    private final CurrencyRepository currencyRepository;
+    private final CurrencyService currencyService;
     @Override
     public CurrencyDto mapFromEntity(CurrencyEntity entity) {
         CurrencyDto currencyDto = new CurrencyDto();
         currencyDto.setCount(entity.getCount());
         currencyDto.setId(entity.getId());
-        currencyDto.setResourceId(entity.getResource() == null ? null : entity.getResource().getId());
+        currencyDto.setResourceId(entity.getResourceId());
         currencyDto.setName(entity.getName());
         return currencyDto;
     }
@@ -29,10 +24,8 @@ public class CurrencyMapper implements EntityMapper<CurrencyEntity, CurrencyDto>
     public CurrencyEntity mapFromDto(CurrencyDto dto) {
         CurrencyEntity currencyEntity = new CurrencyEntity();
         if(dto.getId() != null){
-            Optional<CurrencyEntity> byId = currencyRepository.findById(dto.getId());
-            if(byId.isPresent()){
-                currencyEntity = byId.get();
-            }
+            CurrencyEntity byId = currencyService.getById(dto.getId());
+            currencyEntity = byId == null ? currencyEntity : byId;
         }
         return update(currencyEntity, dto);
     }
@@ -42,7 +35,7 @@ public class CurrencyMapper implements EntityMapper<CurrencyEntity, CurrencyDto>
         entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setCount(dto.getCount());
-        entity.setResource(dto.getResourceId() != null ? resourceRepository.findById(dto.getResourceId()).orElse(new ResourceEntity(dto.getResourceId())) : null);
+        entity.setResourceId(dto.getResourceId());
         return entity;
     }
 }

@@ -3,8 +3,11 @@ package ru.vsu.app.webapp.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 import ru.vsu.app.webapp.component.EntityMapper;
 import ru.vsu.app.webapp.dto.PlayerDto;
 import ru.vsu.app.webapp.entity.PlayerEntity;
@@ -12,6 +15,7 @@ import ru.vsu.app.webapp.repo.CurrencyRepository;
 import ru.vsu.app.webapp.repo.ItemRepository;
 import ru.vsu.app.webapp.repo.PlayerRepository;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +30,6 @@ public class PlayerServiceImpl implements PlayerService{
     private final ObjectMapper objectMapper;
     private final CurrencyRepository currencyRepository;
     private final ItemRepository itemRepository;
-    private List<PlayerDto> cash;
 
     @Override
     public PlayerDto getPlayer(Long id) {
@@ -78,15 +81,10 @@ public class PlayerServiceImpl implements PlayerService{
         return playerRepository.saveAll(collect).stream().map(playerMapper::mapFromEntity).collect(Collectors.toList());
     }
 
-   /* @SneakyThrows
+    @SneakyThrows
     @PostConstruct
     public void hotCash(){
         File file = ResourceUtils.getFile("classpath:players.json");
-        cash = createFromFile(file);
+        createFromFile(file);
     }
-
-    @PostRemove
-    public void cleanCash(){
-        cash.forEach(playerDto -> playerRepository.deleteById(playerDto.getPlayerId()));
-    }*/
 }

@@ -29,7 +29,7 @@ public class PlayerMapper implements EntityMapper<PlayerEntity, PlayerDto>{
         PlayerDto playerDto = new PlayerDto();
         playerDto.setPlayerId(entity.getId());
         playerDto.setNickname(entity.getNickName());
-        playerDto.setProgresses(entity.getProgresses().stream().map(progressMapper::mapFromEntity).collect(Collectors.toList()).toArray(ProgressDto[]::new));
+        playerDto.setProgresses(entity.getProgresses().stream().map(progressMapper::mapFromEntity).toList().toArray(ProgressDto[]::new));
         playerDto.setCurrencies(entity.getCurrencies().stream().collect(Collectors.toMap(currencyEntity -> String.valueOf(currencyEntity.getId()), currencyMapper::mapFromEntity)));
         playerDto.setItems(entity.getItems().stream().collect(Collectors.toMap(itemEntity -> String.valueOf(itemEntity.getId()), itemMapper::mapFromEntity)));
         return playerDto;

@@ -1,7 +1,5 @@
 databaseChangeLog:
   - include:
-      file: /db/changelog/table/resource.sql
-  - include:
       file: /db/changelog/table/currency.sql
   - include:
       file: /db/changelog/table/player.sql

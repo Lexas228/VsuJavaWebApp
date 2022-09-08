@@ -20,9 +20,6 @@ import java.util.stream.Collectors;
 public class PlayerController {
     private final PlayerService playerService;
 
-
-
-
     @GetMapping("/{id}")
     @ResponseBody
     public PlayerDto get(@PathVariable Long id){

@@ -17,9 +17,8 @@ public class CurrencyEntity implements BaseEntity{
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "resource_id")
-    private ResourceEntity resource;
+    @Column(name = "resource_id")
+    private Long resourceId;
 
     @Column(name = "name")
     private String name;
