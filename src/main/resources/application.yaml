@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vsu_java
+    username: dont_say_to_you
+    password: dont_say_to_you
+    driverClassName: org.postgresql.Driver

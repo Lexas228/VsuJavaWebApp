@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: /db/changelog/table/resource.sql
+  - include:
+      file: /db/changelog/table/currency.sql
+  - include:
+      file: /db/changelog/table/player.sql
+  - include:
+      file: /db/changelog/table/currency_player_map.sql
+  - include:
+      file: /db/changelog/table/progress.sql
+  - include:
+      file: /db/changelog/table/item.sql
+  - include:
+      file: /db/changelog/table/item_player_map.sql
