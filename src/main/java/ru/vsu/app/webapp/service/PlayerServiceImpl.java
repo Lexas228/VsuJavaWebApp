@@ -40,6 +40,21 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
+    public PlayerDto delete(Long id) {
+        return playerRepository.removeById(id).map(playerMapper::mapFromEntity).orElse(null);
+    }
+
+    @Override
+    public PlayerDto delete(String nickName) {
+        return playerRepository.removeByNickName(nickName).map(playerMapper::mapFromEntity).orElse(null);
+    }
+
+    @Override
+    public List<PlayerDto> deleteAll() {
+        return playerRepository.removeAll().stream().map(playerMapper::mapFromEntity).collect(Collectors.toList());
+    }
+
+    @Override
     public PlayerDto create(PlayerDto playerDto) {
         PlayerEntity playerEntity = playerMapper.mapFromDto(playerDto);
         if(playerEntity.getId() == null) {
@@ -84,10 +99,10 @@ public class PlayerServiceImpl implements PlayerService{
         return playerRepository.saveAll(collect).stream().map(playerMapper::mapFromEntity).collect(Collectors.toList());
     }
 
-    @SneakyThrows
+ /*   @SneakyThrows
     @PostConstruct
     public void hotCache(){
         File file = ResourceUtils.getFile("classpath:players.json");
         createFromFile(file);
-    }
+    }*/
 }
