@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface PlayerService {
     PlayerDto getPlayer(Long id);
+    PlayerDto getPlayerByNickName(String name);
     PlayerDto create(PlayerDto playerDto);
     List<PlayerDto> createAll(List<PlayerDto> playerDto);
     PlayerDto edit(Long id, PlayerDto playerDto);

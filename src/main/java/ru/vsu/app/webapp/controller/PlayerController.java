@@ -26,6 +26,12 @@ public class PlayerController {
         return playerService.getPlayer(id);
     }
 
+    @GetMapping("/{nickName}")
+    @ResponseBody
+    public PlayerDto get(@PathVariable String nickName){
+        return playerService.getPlayerByNickName(nickName);
+    }
+
     @GetMapping
     @ResponseBody
     public List<PlayerDto> getAll(){

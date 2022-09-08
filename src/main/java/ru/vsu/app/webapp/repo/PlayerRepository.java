@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<PlayerEntity, Long> {
-    @Override
-    Optional<PlayerEntity> findById(Long aLong);
+    Optional<PlayerEntity> findByNickName(String nickName);
 }

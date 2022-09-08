@@ -35,6 +35,11 @@ public class PlayerServiceImpl implements PlayerService{
     }
 
     @Override
+    public PlayerDto getPlayerByNickName(String name) {
+        return playerRepository.findByNickName(name).map(playerMapper::mapFromEntity).orElse(null);
+    }
+
+    @Override
     public PlayerDto create(PlayerDto playerDto) {
         PlayerEntity playerEntity = playerMapper.mapFromDto(playerDto);
         if(playerEntity.getId() == null) {
