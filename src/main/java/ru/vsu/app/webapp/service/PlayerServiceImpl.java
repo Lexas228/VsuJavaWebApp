@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import ru.vsu.app.webapp.component.EntityMapper;
+import ru.vsu.app.webapp.component.PlayerMapper;
 import ru.vsu.app.webapp.dto.PlayerDto;
 import ru.vsu.app.webapp.entity.PlayerEntity;
 import ru.vsu.app.webapp.repo.CurrencyRepository;
@@ -15,6 +16,7 @@ import ru.vsu.app.webapp.repo.PlayerRepository;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,7 @@ public class PlayerServiceImpl implements PlayerService{
     private final ObjectMapper objectMapper;
     private final CurrencyRepository currencyRepository;
     private final ItemRepository itemRepository;
+    private final List<PlayerDto> cache = new ArrayList<>();
 
     @Override
     public PlayerDto getPlayer(Long id) {
@@ -84,25 +87,21 @@ public class PlayerServiceImpl implements PlayerService{
         return playerRepository.findAll().stream().map(playerMapper::mapFromEntity).collect(Collectors.toList());
     }
 
-    @SneakyThrows
-    @Override
-    public List<PlayerDto> createFromJsonString(String json) {
-        PlayerDto[] playerDtos = objectMapper.readValue(json, PlayerDto[].class);
-        return Arrays.stream(playerDtos).map(playerMapper::mapFromDto).map(playerRepository::save).map(playerMapper::mapFromEntity).collect(Collectors.toList());
+    public void updateCache(){
+        cache.clear();
+        cache.addAll(playerRepository.findAll().stream().map(playerMapper::mapFromEntity).toList());
     }
 
-    @SneakyThrows
-    @Override
-    public List<PlayerDto> createFromFile(File file) {
-        PlayerDto[] playerDtos = objectMapper.readValue(file, PlayerDto[].class);
-        List<PlayerEntity> collect = Arrays.stream(playerDtos).map(playerMapper::mapFromDto).collect(Collectors.toList());
-        return playerRepository.saveAll(collect).stream().map(playerMapper::mapFromEntity).collect(Collectors.toList());
+    public void pullCache(){
+        playerRepository.saveAll(cache.stream().map(playerMapper::mapFromDto).collect(Collectors.toList()));
     }
 
- /*   @SneakyThrows
+
+    @SneakyThrows
     @PostConstruct
     public void hotCache(){
         File file = ResourceUtils.getFile("classpath:players.json");
-        createFromFile(file);
-    }*/
+        PlayerDto[] playerDtos = objectMapper.readValue(file, PlayerDto[].class);
+        cache.addAll(Arrays.stream(playerDtos).toList());
+    }
 }

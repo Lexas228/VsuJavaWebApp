@@ -49,67 +49,79 @@ public class ConsoleApplication implements CommandLineRunner {
             consoleCommand.setNeedToHelp(true);
             return consoleCommand;
         }
+        label:
         for(int i = 0, k = args.length; i < k; i++){
             String e = args[i];
-            if(e.equals("exit()") || e.equals("exit") || e.equals("--exit")) {
-                consoleCommand.setNeedToExit(true);
-                break;
-            }else if(e.equals("--crudType") || e.equals("-ct")){
-                if(i + 1 >= k){
-                    consoleCommand.setNeedToHelp(true);
-                    break;
-                }else{
-                    i++;
-                    String crudTypeString = args[i];
-                    try {
-                        ConsoleCommand.CrudType crudType = ConsoleCommand.CrudType.valueOf(crudTypeString);
-                        consoleCommand.setCrudType(crudType);
-                    }catch (IllegalArgumentException illegalArgumentException){
+            switch (e) {
+                case "exit()":
+                case "exit":
+                case "--exit":
+                    consoleCommand.setNeedToExit(true);
+                    break label;
+                case "--crudType":
+                case "-ct":
+                    if (i + 1 >= k) {
                         consoleCommand.setNeedToHelp(true);
-                        break;
+                        break label;
+                    } else {
+                        i++;
+                        String crudTypeString = args[i];
+                        try {
+                            ConsoleCommand.CrudType crudType = ConsoleCommand.CrudType.valueOf(crudTypeString);
+                            consoleCommand.setCrudType(crudType);
+                        } catch (IllegalArgumentException illegalArgumentException) {
+                            consoleCommand.setNeedToHelp(true);
+                            break;
+                        }
                     }
-                }
-            }else if(e.equals("--path-input") || e.equals("-pi")){
-                if(i + 1 >= k){
-                    consoleCommand.setNeedToHelp(true);
                     break;
-                }else {
-                    i++;
-                    String pathToFile = args[i];
-                    if(StringUtils.isBlank(pathToFile)){
+                case "--path-input":
+                case "-pi":
+                    if (i + 1 >= k) {
                         consoleCommand.setNeedToHelp(true);
-                        break;
+                        break label;
+                    } else {
+                        i++;
+                        String pathToFile = args[i];
+                        if (StringUtils.isBlank(pathToFile)) {
+                            consoleCommand.setNeedToHelp(true);
+                            break label;
+                        }
+                        consoleCommand.setPathToInput(pathToFile);
                     }
-                    consoleCommand.setPathToInput(pathToFile);
-                }
-            } else if(e.equals("--path-output") || e.equals("-po")){
-                if(i + 1 >= k){
-                    consoleCommand.setNeedToHelp(true);
                     break;
-                }else {
-                    i++;
-                    String pathToFile = args[i];
-                    if(StringUtils.isBlank(pathToFile)){
+                case "--path-output":
+                case "-po":
+                    if (i + 1 >= k) {
                         consoleCommand.setNeedToHelp(true);
-                        break;
+                        break label;
+                    } else {
+                        i++;
+                        String pathToFile = args[i];
+                        if (StringUtils.isBlank(pathToFile)) {
+                            consoleCommand.setNeedToHelp(true);
+                            break label;
+                        }
+                        consoleCommand.setPathToOutput(pathToFile);
                     }
-                    consoleCommand.setPathToOutput(pathToFile);
-                }
-            }else if(e.equals("--id") || e.equals("-i")){
-                if(i + 1 >= k){
-                    consoleCommand.setNeedToHelp(true);
                     break;
-                }else {
-                    i++;
-                    String id = args[i];
-                    try {
-                        long l = Long.parseLong(id);
-                        consoleCommand.setId(l);
-                    }catch (NumberFormatException numberFormatException){
+                case "--id":
+                case "-i":
+                    if (i + 1 >= k) {
                         consoleCommand.setNeedToHelp(true);
-                        break;
+                        break label;
+                    } else {
+                        i++;
+                        String id = args[i];
+                        try {
+                            long l = Long.parseLong(id);
+                            consoleCommand.setId(l);
+                        } catch (NumberFormatException numberFormatException) {
+                            consoleCommand.setNeedToHelp(true);
+                            break;
+                        }
                     }
-                }
+                    break;
             }
         }
         return consoleCommand;

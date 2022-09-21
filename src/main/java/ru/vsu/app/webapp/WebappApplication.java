@@ -1,12 +1,9 @@
 package ru.vsu.app.webapp;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
-import ru.vsu.app.webapp.service.PlayerService;
 
 import java.io.PrintStream;
 

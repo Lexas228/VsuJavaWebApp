@@ -17,6 +17,4 @@ public interface PlayerService {
     List<PlayerDto> createAll(List<PlayerDto> playerDto);
     PlayerDto edit(Long id, PlayerDto playerDto);
     List<PlayerDto> getAll();
-    List<PlayerDto> createFromJsonString(String json);
-    List<PlayerDto> createFromFile(File file) throws IOException;
 }

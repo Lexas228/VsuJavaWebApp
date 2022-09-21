@@ -4,6 +4,6 @@ spring:
     show-sql: false
   datasource:
     url: jdbc:postgresql://localhost:5432/vsu_java
-    username: dont_say_to_you
-    password: dont_say_to_you
+    username: vsu_java_dev
+    password: vsu_java_dev
     driverClassName: org.postgresql.Driver

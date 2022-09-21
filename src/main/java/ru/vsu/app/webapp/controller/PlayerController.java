@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/player")
-public class PlayerController {
+public class PlayerController{
     private final PlayerService playerService;
 
     @GetMapping("/{id}")
